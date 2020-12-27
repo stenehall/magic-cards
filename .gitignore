@@ -9,6 +9,7 @@ yarn-error.log
 .env.*
 .s3cfg
 .jshintrc
+.eslintcache
 
 config/cards.json
 config/actions.json

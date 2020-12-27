@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Card from './Card'
+import { Icon } from 'semantic-ui-react'
 
 import '../styles/PlayCard.css'
 
@@ -30,8 +31,13 @@ class PlayCard extends React.Component {
 
     return (
       <div>
-        <div className="PlayCard" onClick={this.testCard}>
-          <Card card={card} />
+        <div className="PlayCard">
+          <span onClick={this.testCard}>
+            <span class="active">
+              <Icon name="play circle outline" size="huge" />
+            </span>
+            <Card card={card} />
+          </span>
         </div>
       </div>
     )
