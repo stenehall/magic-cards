@@ -78,7 +78,7 @@ app.get('/metadata/spotify', (req, res) => {
           spotifyApi.getTrack(uri).then(responder).catch(errorHandler)
           break
         case 'playlist':
-          spotifyApi.getPlaylist(user, uri).then(responder).catch(errorHandler)
+          spotifyApi.getPlaylist(uri).then(responder).catch(errorHandler)
           break
         default:
       }

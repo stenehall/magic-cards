@@ -33,7 +33,7 @@ class PlayCard extends React.Component {
       <div>
         <div className="PlayCard">
           <span onClick={this.testCard}>
-            <span class="active">
+            <span className="active">
               <Icon name="play circle outline" size="huge" />
             </span>
             <Card card={card} />

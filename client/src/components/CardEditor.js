@@ -18,7 +18,7 @@ class CardEditor extends React.Component {
     const { card } = props
 
     this.state = {
-      code: card.code,
+      code: card.code || Math.random().toString(36).substring(3),
       type: card.type || 'album',
       action: card.action,
       artURL: card.artURL,
@@ -140,7 +140,6 @@ class CardEditor extends React.Component {
     let actionOptions = []
 
     const { actions } = this.props.data
-    console.log('this.props', this.props)
 
     if (actions && actions.length > 0) {
       actionOptions = actions.map((action) => {
