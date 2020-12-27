@@ -11,15 +11,14 @@ services:
       - 5000:5000
     restart: always
     volumes:
-      - ./magic-cards/config:/usr/src/app/config
+      - ./config:/usr/src/app/config
     devices:
       - '/dev/input/event0:/dev/input/event0'
-    networks:
-      backend:
-      web:
-
-networks:
-  backend:
-    external: true
-  web:
-    external: true
+    # networks:
+    #   backend:
+    #   web:
+# networks:
+#   backend:
+#     external: true
+#   web:
+#     external: true

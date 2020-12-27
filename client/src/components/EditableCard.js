@@ -17,6 +17,7 @@ class EditableCard extends React.Component {
   }
 
   handleRequestClose = (event) => {
+    console.log('handleRequestClose')
     if (event) {
       event.preventDefault()
     }
@@ -24,6 +25,7 @@ class EditableCard extends React.Component {
   }
 
   handleClick = (event) => {
+    console.log('toggle modal', !this.state.showModal)
     this.setState({ showModal: !this.state.showModal })
   }
 
@@ -85,21 +87,21 @@ class EditableCard extends React.Component {
             handleLeftBadgeClick={this.testCard}
             handleRightBadgeClick={this.deleteCard}
           />
-          <Modal
-            open={this.state.showModal}
-            onClose={this.handleRequestClose}
-            size="large"
-            dimmer={'blurring'}
-          >
-            <Modal.Header>Manage Card</Modal.Header>
-            <Modal.Content>
-              <CardEditor
-                card={card}
-                handleRequestClose={this.handleRequestClose}
-              />
-            </Modal.Content>
-          </Modal>
         </div>
+        <Modal
+          open={this.state.showModal}
+          onClose={this.handleRequestClose}
+          size="large"
+          dimmer={'blurring'}
+        >
+          <Modal.Header>Manage Card</Modal.Header>
+          <Modal.Content>
+            <CardEditor
+              card={card}
+              handleRequestClose={this.handleRequestClose}
+            />
+          </Modal.Content>
+        </Modal>
       </div>
     )
   }

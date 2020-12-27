@@ -7,18 +7,20 @@ set -e
 cd "$(dirname "$0")/.."
 
 echo "Installing dependencies..."
-
 npm install
 
+echo "Installing dependencies (for server)..."
 cd server
 npm install
 
 cd ..
 
+echo "Installing dependencies (for client)..."
 cd client
 npm install
 
 cd ..
 
+echo "Installing dependencies (for scanner)..."
 cd scanner
 npm install
