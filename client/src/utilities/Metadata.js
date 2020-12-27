@@ -1,4 +1,4 @@
-import titleCase from 'title-case'
+import { titleCase } from 'title-case'
 
 export default class Metadata {
   static async fetchMetadata(url) {
@@ -14,7 +14,8 @@ export default class Metadata {
   static async fromSpotify(sourceURL) {
     let type, title, subtitle, uri, artURL
 
-    const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : ''
+    const baseURL =
+      process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : ''
     const pathParts = sourceURL.pathname.split('/')
 
     const spotifyID = pathParts[pathParts.length - 1]
@@ -24,13 +25,14 @@ export default class Metadata {
     const metadataURL = `${baseURL}/metadata/spotify?type=${contentType}&uri=${spotifyID}&user=${user}`
 
     let metadata = await fetch(metadataURL)
-      .then(results => {
+      .then((results) => {
         return results.json()
       })
-      .then(data => {
+      .then((data) => {
         type = contentType
         title = data.name
-        uri = `spotify/queue/${data.uri}`
+        // uri = `spotify/queue/${data.uri}`
+        uri = data.uri
 
         if (data.artists && data.artists[0]) {
           subtitle = data.artists[0].name
@@ -46,9 +48,15 @@ export default class Metadata {
           }
         }
 
-        return {type: type, artURL: artURL, title: title, subtitle: subtitle, uri: uri}
+        return {
+          type: type,
+          artURL: artURL,
+          title: title,
+          subtitle: subtitle,
+          uri: uri,
+        }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error)
         return {}
       })
@@ -64,14 +72,19 @@ export default class Metadata {
       const fragmentID = sourceURL.searchParams.get('i')
       const itunesID = fragmentID || collectionID
 
-      let metadata = await fetch(`https://itunes.apple.com/lookup?id=${itunesID}`)
-        .then(results => {
+      let metadata = await fetch(
+        `https://itunes.apple.com/lookup?id=${itunesID}`
+      )
+        .then((results) => {
           return results.json()
         })
-        .then(data => {
+        .then((data) => {
           const result = data.results[0]
 
-          artURL = result.artworkUrl100.replace('100x100bb.jpg', '1400x1400bb.jpg')
+          artURL = result.artworkUrl100.replace(
+            '100x100bb.jpg',
+            '1400x1400bb.jpg'
+          )
 
           if (result.kind === 'song') {
             type = 'song'
@@ -85,7 +98,13 @@ export default class Metadata {
 
           uri = `applemusic/queue/${type}:${itunesID}`
 
-          return {type: type, artURL: artURL, title: title, subtitle: subtitle, uri: uri}
+          return {
+            type: type,
+            artURL: artURL,
+            title: title,
+            subtitle: subtitle,
+            uri: uri,
+          }
         })
 
       return metadata
@@ -102,7 +121,7 @@ export default class Metadata {
         artURL = ''
       }
 
-      return {type: type, artURL: artURL, title: title, subtitle: subtitle}
+      return { type: type, artURL: artURL, title: title, subtitle: subtitle }
     }
   }
 }

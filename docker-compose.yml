@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  magic-cards:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: magic-cards:latest
+    container_name: magic-cards
+    ports:
+      - 5000:5000
+    restart: always
+    volumes:
+      - ./magic-cards/config:/usr/src/app/config
+    devices:
+      - '/dev/input/event0:/dev/input/event0'
+    networks:
+      backend:
+      web:
+
+networks:
+  backend:
+    external: true
+  web:
+    external: true

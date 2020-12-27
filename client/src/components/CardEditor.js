@@ -1,9 +1,10 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import {graphql, compose} from 'react-apollo'
+import { graphql } from 'react-apollo'
 import validUrl from 'valid-url'
+import { flowRight as compose } from 'lodash'
 
-import {Form, Button} from 'semantic-ui-react'
+import { Form, Button } from 'semantic-ui-react'
 
 import Metadata from '../utilities/Metadata'
 import Card from './Card'
@@ -14,7 +15,7 @@ class CardEditor extends React.Component {
   constructor(props) {
     super(props)
 
-    const {card} = props
+    const { card } = props
 
     this.state = {
       code: card.code,
@@ -39,20 +40,20 @@ class CardEditor extends React.Component {
     }
   }
 
-  handleUrl = event => {
+  handleUrl = (event) => {
     event.preventDefault()
 
     if (!validUrl.isUri(event.target.value)) {
       return
     }
 
-    const action = (this.props.data.actions || []).find(anAction => {
+    const action = (this.props.data.actions || []).find((anAction) => {
       return anAction.name === this.state.action
     })
 
     const url = event.target.value
 
-    Metadata.fetchMetadata(url).then(metadata => {
+    Metadata.fetchMetadata(url).then((metadata) => {
       if (action && action.type !== 'sonos') {
         delete metadata.uri
       }
@@ -60,26 +61,26 @@ class CardEditor extends React.Component {
     })
   }
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault()
     const cardInput = this.cardDataFromState()
     let variables
 
     if (this.props.card.id) {
-      variables = {id: parseInt(this.props.card.id, 10), cardInput: cardInput}
+      variables = { id: parseInt(this.props.card.id, 10), cardInput: cardInput }
 
       this.props.updateCard({
         variables,
         optimisticResponse: {
-          updateCard: {...cardInput, __typename: 'Card'},
+          updateCard: { ...cardInput, __typename: 'Card' },
         },
       })
     } else {
-      variables = {cardInput: cardInput}
+      variables = { cardInput: cardInput }
 
       this.props.createCard({
         variables,
-        update: (store, {data: {createCard}}) => {
+        update: (store, { data: { createCard } }) => {
           const query = gql`
             query {
               cards {
@@ -94,10 +95,10 @@ class CardEditor extends React.Component {
               }
             }
           `
-          const {cards} = store.readQuery({query})
+          const { cards } = store.readQuery({ query })
           cards.push(createCard)
 
-          store.writeQuery({query: query, data: {cards}})
+          store.writeQuery({ query: query, data: { cards } })
         },
       })
     }
@@ -105,8 +106,8 @@ class CardEditor extends React.Component {
     this.props.handleRequestClose()
   }
 
-  handleInputChange = event => {
-    const {code, artURL, title, subtitle, uri} = event.target.form
+  handleInputChange = (event) => {
+    const { code, artURL, title, subtitle, uri } = event.target.form
     this.setState({
       code: code.value,
       artURL: artURL.value,
@@ -128,30 +129,41 @@ class CardEditor extends React.Component {
     })
   }
 
-  onKeyPress = event => {
+  onKeyPress = (event) => {
     if (event.which === 13) {
       event.preventDefault()
     }
   }
 
   render() {
-    const {actions} = this.props.data
     const card = this.cardDataFromState()
     let actionOptions = []
 
+    const { actions } = this.props.data
+    console.log('this.props', this.props)
+
     if (actions && actions.length > 0) {
-      actionOptions = actions.map(action => {
-        return {text: action.name, value: action.name}
+      actionOptions = actions.map((action) => {
+        return { text: action.name, value: action.name }
       })
 
-      if (!card.action) {
-        this.setState({action: actionOptions[0].value})
-      }
+      // if (!card.action) {
+      //   this.setState({ action: actionOptions[0].value })
+      // }
     }
 
-    const types = ['Album', 'Song', 'Playlist', 'Station', 'Movie', 'Show', 'Channel', 'Event']
-    const typeOptions = types.map(type => {
-      return {text: type, value: type.toLowerCase()}
+    const types = [
+      'Album',
+      'Song',
+      'Playlist',
+      'Station',
+      'Movie',
+      'Show',
+      'Channel',
+      'Event',
+    ]
+    const typeOptions = types.map((type) => {
+      return { text: type, value: type.toLowerCase() }
     })
 
     const submitButtonTitle = this.props.card.id ? 'Save Card' : 'Create Card'
@@ -292,7 +304,7 @@ const actionsQuery = gql`
 `
 
 export default compose(
-  graphql(createCard, {name: 'createCard'}),
-  graphql(updateCard, {name: 'updateCard'}),
-  graphql(actionsQuery),
+  graphql(createCard, { name: 'createCard' }),
+  graphql(updateCard, { name: 'updateCard' }),
+  graphql(actionsQuery)
 )(CardEditor)

@@ -9,7 +9,7 @@ echo "Building Magic Cards..."
 cd "$(dirname "$0")/.."
 
 rm -Rf client/build
-cd client && yarn --silent build  > /dev/null 2>&1
+cd client && npm run build  > /dev/null 2>&1
 cd ..
 
 rm -Rf server/public

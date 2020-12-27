@@ -1,7 +1,9 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import gql from 'graphql-tag'
-import {graphql, compose} from 'react-apollo'
-import {Icon, Menu, Modal} from 'semantic-ui-react'
+import { graphql } from 'react-apollo'
+import { Icon, Menu, Modal } from 'semantic-ui-react'
+import { flowRight as compose } from 'lodash'
+import Konami from 'react-konami-code'
 
 import './styles/Index.css'
 
@@ -12,22 +14,26 @@ class App extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {cards: [], showAddCardModal: false}
+    this.state = { cards: [], showAddCardModal: false, showAdmin: false }
   }
 
-  handleRequestClose = event => {
+  handleRequestClose = (event) => {
     if (event) {
       event.preventDefault()
     }
-    this.setState({showAddCardModal: false})
+    this.setState({ showAddCardModal: false })
   }
 
   addCard = () => {
-    this.setState({showAddCardModal: true})
+    this.setState({ showAddCardModal: true })
+  }
+
+  easterEgg = () => {
+    this.setState({ showAdmin: true })
   }
 
   render() {
-    const {loading, error, cards} = this.props.data
+    const { loading, error, cards } = this.props.data
 
     if (loading) {
       return <div>Loading...</div>
@@ -39,26 +45,33 @@ class App extends Component {
 
     return (
       <div className="container">
-        <Menu fixed="top" icon="labeled">
-          <Menu.Item>
-            <Icon name="magic" />
-            <p>Magic Cards</p>
-          </Menu.Item>
-          <Menu.Item position="right" onClick={this.addCard}>
-            <Icon name="plus" />
-            Add Card
-          </Menu.Item>
-        </Menu>
-        <Cards cards={cards} />
+        <Konami action={this.easterEgg} code={[38, 38, 40, 40]} />
+        {this.state.showAdmin && (
+          <Menu fixed="top" icon="labeled">
+            <Menu.Item>
+              <Icon name="magic" />
+              <p>Magic Cards</p>
+            </Menu.Item>
+            <Menu.Item position="right" onClick={this.addCard}>
+              <Icon name="plus" />
+              Add Card
+            </Menu.Item>
+          </Menu>
+        )}
+        <Cards cards={cards} showAdmin={this.state.showAdmin} />
 
         <Modal
           open={this.state.showAddCardModal}
           onClose={this.handleRequestClose}
           size="large"
-          dimmer={'blurring'}>
+          dimmer={'blurring'}
+        >
           <Modal.Header>Manage Card</Modal.Header>
           <Modal.Content>
-            <CardEditor card={newCard} handleRequestClose={this.handleRequestClose} />
+            <CardEditor
+              card={newCard}
+              handleRequestClose={this.handleRequestClose}
+            />
           </Modal.Content>
         </Modal>
       </div>

@@ -1,8 +1,7 @@
-.CardEditor{
+.CardEditor {
   position: relative;
   margin: 20px 50px;
-
-  .Card{
-    margin: 0 auto;
-  }
+}
+.CardEditor .Card {
+  margin: 0 auto;
 }

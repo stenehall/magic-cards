@@ -8,17 +8,17 @@ cd "$(dirname "$0")/.."
 
 echo "Installing dependencies..."
 
-yarn
+npm install
 
 cd server
-yarn
+npm install
 
 cd ..
 
 cd client
-yarn
+npm install
 
 cd ..
 
 cd scanner
-yarn
+npm install

@@ -7,16 +7,16 @@
     "url": "https://github.com/maddox/magic-cards/issues"
   },
   "scripts": {
-    "dev-client": "cd client && yarn start",
+    "dev-client": "cd client && npm start",
     "dev-server": "cd server && nodemon server.js",
-    "dev-stack": "concurrently --kill-others-on-fail \"yarn dev-server\" \"yarn dev-client\"",
-    "scanner": "cd scanner && yarn start",
-    "server": "cd server && yarn start",
-    "stack": "concurrently --kill-others-on-fail \"yarn server\" \"yarn scanner\""
+    "dev-stack": "concurrently --kill-others-on-fail \"npm run dev-server\" \"npm run dev-client\"",
+    "scanner": "cd scanner && npm start",
+    "server": "cd server && npm start",
+    "stack": "concurrently --kill-others-on-fail \"npm run server\" \"npm run scanner\""
   },
   "dependencies": {},
   "devDependencies": {
-    "concurrently": "^3.5.0",
-    "nodemon": "^1.18.10"
+    "concurrently": "^5.3.0",
+    "nodemon": "^2.0.6"
   }
 }

@@ -1,7 +1,8 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import {graphql, compose} from 'react-apollo'
-import {Modal} from 'semantic-ui-react'
+import { graphql } from 'react-apollo'
+import { Modal } from 'semantic-ui-react'
+import { flowRight as compose } from 'lodash'
 
 import Card from './Card'
 import CardEditor from './CardEditor'
@@ -12,21 +13,21 @@ class EditableCard extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {showModal: false}
+    this.state = { showModal: false }
   }
 
-  handleRequestClose = event => {
+  handleRequestClose = (event) => {
     if (event) {
       event.preventDefault()
     }
-    this.setState({showModal: false})
+    this.setState({ showModal: false })
   }
 
-  handleClick = event => {
-    this.setState({showModal: !this.state.showModal})
+  handleClick = (event) => {
+    this.setState({ showModal: !this.state.showModal })
   }
 
-  deleteCard = event => {
+  deleteCard = (event) => {
     event.preventDefault()
     event.stopPropagation()
 
@@ -36,11 +37,11 @@ class EditableCard extends React.Component {
 
     const cardID = this.props.card.id
 
-    const variables = {id: cardID}
+    const variables = { id: cardID }
 
     this.props.deleteCard({
       variables,
-      update: (store, {data: {deleteCard}}) => {
+      update: (store, { data: { deleteCard } }) => {
         const query = gql`
           query {
             cards {
@@ -48,16 +49,16 @@ class EditableCard extends React.Component {
             }
           }
         `
-        const {cards} = store.readQuery({query})
+        const { cards } = store.readQuery({ query })
         store.writeQuery({
           query: query,
-          data: {cards: cards.filter(e => e.id !== cardID)},
+          data: { cards: cards.filter((e) => e.id !== cardID) },
         })
       },
     })
   }
 
-  testCard = event => {
+  testCard = (event) => {
     event.preventDefault()
     event.stopPropagation()
 
@@ -66,14 +67,15 @@ class EditableCard extends React.Component {
       return
     }
 
-    const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : ''
+    const baseURL =
+      process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : ''
     const testerURL = baseURL + '/test/' + this.props.card.code
 
-    fetch(testerURL, {method: 'post'})
+    fetch(testerURL, { method: 'post' })
   }
 
   render() {
-    const {card} = this.props
+    const { card } = this.props
 
     return (
       <div>
@@ -87,10 +89,14 @@ class EditableCard extends React.Component {
             open={this.state.showModal}
             onClose={this.handleRequestClose}
             size="large"
-            dimmer={'blurring'}>
+            dimmer={'blurring'}
+          >
             <Modal.Header>Manage Card</Modal.Header>
             <Modal.Content>
-              <CardEditor card={card} handleRequestClose={this.handleRequestClose} />
+              <CardEditor
+                card={card}
+                handleRequestClose={this.handleRequestClose}
+              />
             </Modal.Content>
           </Modal>
         </div>
@@ -114,4 +120,6 @@ const deleteCard = gql`
   }
 `
 
-export default compose(graphql(deleteCard, {name: 'deleteCard'}))(EditableCard)
+export default compose(graphql(deleteCard, { name: 'deleteCard' }))(
+  EditableCard
+)

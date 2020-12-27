@@ -23,13 +23,16 @@ app.use(express.static(path.join(__dirname, 'public')))
 if (process.env.NODE_ENV !== 'production') {
   app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*')
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+    res.header(
+      'Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept'
+    )
     next()
   })
 }
 
 app.get('/', (req, res) => {
-  res.sendfile('index.html')
+  res.sendFile('index.html')
 })
 
 app.get('/card/:id', (req, res) => {
@@ -41,7 +44,7 @@ app.get('/card/:id', (req, res) => {
 
 app.post('/test/:code', (req, res) => {
   const command = `node ${__dirname}/../scanner/testCard.js ${req.params.code}`
-  exec(command, function(error, stdout, stderr) {
+  exec(command, function (error, stdout, stderr) {
     console.log(stdout, stderr, error)
   })
 
@@ -53,43 +56,34 @@ app.get('/metadata/spotify', (req, res) => {
   const uri = req.query.uri
   const user = req.query.user
 
-  const responder = data => {
+  const responder = (data) => {
     console.log(data)
     res.send(data.body)
   }
-  const errorHandler = error => {
+  const errorHandler = (error) => {
     console.error(error)
-    res.send({message: 'error'})
+    res.send({ message: 'error' })
   }
 
   spotifyApi
     .clientCredentialsGrant()
-    .then(data => {
+    .then((data) => {
       spotifyApi.setAccessToken(data.body.access_token)
 
       switch (type) {
         case 'album':
-          spotifyApi
-            .getAlbum(uri)
-            .then(responder)
-            .catch(errorHandler)
+          spotifyApi.getAlbum(uri).then(responder).catch(errorHandler)
           break
         case 'track':
-          spotifyApi
-            .getTrack(uri)
-            .then(responder)
-            .catch(errorHandler)
+          spotifyApi.getTrack(uri).then(responder).catch(errorHandler)
           break
         case 'playlist':
-          spotifyApi
-            .getPlaylist(user, uri)
-            .then(responder)
-            .catch(errorHandler)
+          spotifyApi.getPlaylist(user, uri).then(responder).catch(errorHandler)
           break
         default:
       }
     })
-    .catch(error => {
+    .catch((error) => {
       console.log('Something went wrong when retrieving an access token', error)
       res.send('error')
     })

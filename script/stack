@@ -8,6 +8,6 @@ cd "$(dirname "$0")/.."
 
 echo "Starting Magic Cards..."
 
-yarn --silent stack
+npm run stack
 
 echo "Magic Cards has been started."

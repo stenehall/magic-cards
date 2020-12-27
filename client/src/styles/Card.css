@@ -1,98 +1,79 @@
-.Card{
+.Card {
   position: relative;
   /* ratio: 1.586 */
   height: 264px;
   width: 168px;
-
   border-radius: 8px;
   overflow: hidden;
-
   text-align: center;
-  background-color: #ffffff;
-
-  .badge{
-    position: absolute;
-    display: none;
-    right: 0;
-    top: 0;
-    width: 0;
-    height: 0;
-    margin: 0;
-    padding-top: 0;
-    border-style: solid;
-    border-width: 0 40px 40px 0;
-    border-color: transparent #c20e00 transparent transparent;
-
-    i.icon{
-      padding: 2px 0 0 22px;
-      font-size: 16px;
-      color: #f0f1f4;
-    }
-
-    &:hover i.icon{
-      color: #e5bbaf;
-    }
-
-    &.left{
-      left: 0;
-      border-width: 0 0 40px 40px;
-      border-color: transparent transparent transparent #1b43b1;
-      i.icon{
-        margin-left: -50px;
-        padding: 2px 0 0 0;
-      }
-
-      &:hover i.icon{
-        color: #c8dbff;
-      }
-
-    }
-  }
-
-  &:hover .badge{
-    display: block;
-  }
-
-  &.movie .coverArt, &.show .coverArt{
-    height: 100%;
-  }
-
-
-  .card-content{
-    height: 100%;
-    display: grid;
-    grid-template-rows: auto 1fr;
-
-    .coverArt{
-      width: 100%;
-    }
-
-    .metadata{
-      display: flex;
-      align-items: center;
-
-      .titles{
-        width: 100%;
-
-        p{
-          padding: 0 10px;
-          margin: 0;
-          width: 100%;
-
-          &.title{
-            font-size: 16px;
-            font-weight: 500;
-          }
-
-          &.subtitle{
-            margin-top: 5px;
-            font-size: 13px;
-            font-weight: 400;
-          }
-        }
-      }
-    }
-  }
-
-
+  background-color: #fff;
+}
+.Card .badge {
+  position: absolute;
+  display: none;
+  right: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding-top: 0;
+  border-style: solid;
+  border-width: 0 40px 40px 0;
+  border-color: transparent #c20e00 transparent transparent;
+}
+.Card .badge i.icon {
+  padding: 2px 0 0 22px;
+  font-size: 16px;
+  color: #f0f1f4;
+}
+.Card .badge:hover i.icon {
+  color: #e5bbaf;
+}
+.Card .badge.left {
+  left: 0;
+  border-width: 0 0 40px 40px;
+  border-color: transparent transparent transparent #1b43b1;
+}
+.Card .badge.left i.icon {
+  margin-left: -50px;
+  padding: 2px 0 0 0;
+}
+.Card .badge.left:hover i.icon {
+  color: #c8dbff;
+}
+.Card:hover .badge {
+  display: block;
+}
+.Card.movie .coverArt,
+.Card.show .coverArt {
+  height: 100%;
+}
+.Card .card-content {
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+.Card .card-content .coverArt {
+  width: 100%;
+}
+.Card .card-content .metadata {
+  display: flex;
+  align-items: center;
+}
+.Card .card-content .metadata .titles {
+  width: 100%;
+}
+.Card .card-content .metadata .titles p {
+  padding: 0 10px;
+  margin: 0;
+  width: 100%;
+}
+.Card .card-content .metadata .titles p.title {
+  font-size: 16px;
+  font-weight: 500;
+}
+.Card .card-content .metadata .titles p.subtitle {
+  margin-top: 5px;
+  font-size: 13px;
+  font-weight: 400;
 }

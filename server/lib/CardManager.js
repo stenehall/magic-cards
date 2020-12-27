@@ -16,16 +16,21 @@ class CardManager {
   }
 
   saveCards() {
-    fs.writeFile(this.cardDataPath, JSON.stringify(this.cards, null, '  '), 'utf8')
+    fs.writeFile(
+      this.cardDataPath,
+      JSON.stringify(this.cards, null, '  '),
+      'utf8',
+      console.log
+    )
   }
 
   findCard(id) {
-    let card = this.cards.find(x => x.id == id)
+    let card = this.cards.find((x) => x.id == id)
     return card
   }
 
   findCardByCode(code) {
-    let card = this.cards.find(x => x.code === code)
+    let card = this.cards.find((x) => x.code === code)
     return card
   }
 

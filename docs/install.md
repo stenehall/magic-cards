@@ -157,30 +157,7 @@ Magic Cards is written in Node.js. It starts as 2 processes. The server that let
 
 You'll need to have node and yarn installed on your Pi before you start setting up Magic Cards.
 
-If you don't have Node or yarn installed, here's some simple instructions. Using [this repo](https://github.com/sdesalas/node-pi-zero), you can get node installed with a single command:
-
-```bash
-wget -O - https://raw.githubusercontent.com/sdesalas/node-pi-zero/master/install-node-v9.11.2.sh | bash
-```
-
-After you have node installed, edit your `~/.profile` file to add:
-
-```bash
-export PATH=$PATH:/opt/nodejs/bin
-```
-
-This will add support for node CLI tools, like yarn.
-
-Finally, if you don't have yarn installed, install it:
-
-```bash
-npm install yarn -g
-```
-
-You should be all set up to get Magic Cards running now.
-
-
-Follow these steps to get Magic Cards running on your Pi.
+If you don't have Node or Npm installed, figure that out first.
 
 ### Pull down the code
 

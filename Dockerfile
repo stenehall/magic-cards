@@ -1,7 +1,6 @@
-FROM resin/raspberry-pi-alpine-node:9.11.2
+FROM node:alpine
 
-RUN npm install yarn -g
-RUN npm install concurrently -g
+#RUN npm install concurrently -g
 
 # Create app directory
 RUN mkdir -p /usr/src/app
